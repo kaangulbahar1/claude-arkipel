@@ -74,7 +74,9 @@ export default function Home() {
 
       <footer className="footer">
         <span>Arkipel · 2026</span>
-        <span>Anket cevapları anonim tutulur. E-posta sadece istersen alınır.</span>
+        <span>
+          Anket cevapları anonim tutulur. E-posta sadece istersen alınır. <Link href="/gizlilik">Gizlilik</Link>
+        </span>
       </footer>
     </div>
   );

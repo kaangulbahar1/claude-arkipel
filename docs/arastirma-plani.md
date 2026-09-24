@@ -45,6 +45,18 @@ Hedef: ilk 2 haftada **en az 100 cevap**. Her kanal için ayrı `?kaynak=` etike
 - Yazar ve senarist toplulukları
 - LinkedIn ve X paylaşımları
 
+## Haftalık döngü
+
+Anket herkese açık ve gelen cevaplarla şekillenecek. Her hafta:
+
+1. **Panele bak** (`/panel`): Kaç cevap geldi, hangi kaynaktan? Hipotezlerin durumu değişti mi?
+2. **Son açık uçlu cevapları oku.** Tekrar eden bir şikâyet ya da beklenmedik bir kullanım var mı?
+3. **Anketi güncelle** (gerekirse): Anlaşılmayan soruyu netleştir, sık çıkan "Diğer" cevaplarını seçeneğe
+   çevir, yeni bir hipotezi test edecek soruyu ekle. Kurallar ve günlük: [anket-surumleri.md](anket-surumleri.md).
+4. **Ürün kararlarını güncelle:** Bu dosyadaki "Ürün kararları" bölümüne, veriden çıkan kararı ve
+   dayandığı sayıyı yaz.
+5. **Dağıtımı ayarla:** Çekirdek kitleyi en çok getiren kanala ağırlık ver.
+
 ## Veriyle sonra ne yapacağız
 
 1. **İlk 30 cevaptan sonra:** `npm run analiz` ile ara rapor çıkar. Anlaşılmayan ya da herkesin

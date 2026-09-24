@@ -56,7 +56,7 @@ export function checkAll(answers: Answers, other: Record<string, string>, questi
 }
 
 export const submissionSchema = z.object({
-  version: z.literal(SURVEY_VERSION),
+  version: z.string().max(40),
   answers: z.record(z.string(), z.unknown()),
   other: z.record(z.string(), z.string().max(300)),
   contact: z.object({
@@ -77,10 +77,19 @@ export type Submission = z.infer<typeof submissionSchema>;
 
 export function validateSubmission(input: unknown):
   | { ok: true; data: Submission }
-  | { ok: false; error: string; fields?: Record<string, string> } {
+  | { ok: false; error: string; stale?: boolean; fields?: Record<string, string> } {
   const parsed = submissionSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Gönderilen veri okunamadı." };
   const data = parsed.data;
+
+  // Katılımcı anketi açtıktan sonra sorular güncellendiyse.
+  if (data.version !== SURVEY_VERSION) {
+    return {
+      ok: false,
+      stale: true,
+      error: "Sen doldururken anketi güncelledik. Sayfayı yenileyip yeni sürümü doldurur musun?",
+    };
+  }
 
   const known = new Set(allQuestions.map((q) => q.id));
   if (Object.keys(data.answers).some((k) => !known.has(k))) {

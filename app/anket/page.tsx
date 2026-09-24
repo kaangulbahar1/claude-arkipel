@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 import { Brand } from "@/components/Brand";
 import { SurveyForm } from "@/components/SurveyForm";
@@ -17,6 +18,10 @@ export default function SurveyPage() {
           <SurveyForm />
         </Suspense>
       </main>
+      <footer className="footer">
+        <span>Cevaplar anonim tutulur.</span>
+        <Link href="/gizlilik">Gizlilik ve KVKK</Link>
+      </footer>
     </div>
   );
 }

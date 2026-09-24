@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { type Answers, type Question, sections, SURVEY_VERSION } from "@/lib/survey";
-import { checkAll, OTHER } from "@/lib/validate";
+import { allQuestions, type Answers, type Question, sections, SURVEY_VERSION } from "@/lib/survey";
+import { checkAll, checkAnswer, OTHER } from "@/lib/validate";
 
 const DRAFT_KEY = `arkipel-anket-${SURVEY_VERSION}`;
 const steps = [...sections.map((s) => s.title), "Beta listesi"];
@@ -14,10 +14,23 @@ type Draft = { answers: Answers; other: Record<string, string>; contact: Contact
 
 const emptyContact: Contact = { email: "", beta: false, interview: false, consent: false };
 
+// Bu sürümün taslağını, yoksa eski bir sürümün taslağından hâlâ geçerli cevapları yükler.
 function loadDraft(): Draft | null {
   try {
     const raw = localStorage.getItem(DRAFT_KEY);
-    return raw ? (JSON.parse(raw) as Draft) : null;
+    if (raw) return JSON.parse(raw) as Draft;
+
+    const oldKey = Object.keys(localStorage).find((k) => k.startsWith("arkipel-anket-") && k !== DRAFT_KEY);
+    if (!oldKey) return null;
+    const old = JSON.parse(localStorage.getItem(oldKey) ?? "null") as Draft | null;
+    localStorage.removeItem(oldKey);
+    if (!old?.answers) return null;
+    const answers: Answers = {};
+    for (const q of allQuestions) {
+      const v = old.answers[q.id];
+      if (v !== undefined && checkAnswer(q, v, old.other?.[q.id]) === null) answers[q.id] = v;
+    }
+    return { answers, other: old.other ?? {}, contact: old.contact ?? emptyContact, step: 0 };
   } catch {
     return null;
   }
@@ -368,8 +381,12 @@ function ContactStep({ contact, setContact }: { contact: Contact; setContact: (c
           <label className="check">
             <input type="checkbox" id="in-consent" checked={contact.consent} onChange={(e) => set({ consent: e.target.checked })} />
             <span>
-              E-postamın sadece Arkipel ile ilgili haber ve görüşme daveti için saklanmasına onay veriyorum.
-              <small>Anket cevapların e-postandan ayrı tutulur. İstediğin zaman silinmesini isteyebilirsin.</small>
+              E-postamın sadece Arkipel ile ilgili haber ve görüşme daveti için saklanmasına ve bu amaçla yurt dışındaki
+              sunucularda işlenmesine onay veriyorum.
+              <small>
+                Anket cevapların e-postandan ayrı tutulur. İstediğin zaman silinmesini isteyebilirsin.{" "}
+                <Link href="/gizlilik" target="_blank">Aydınlatma metni</Link>
+              </small>
             </span>
           </label>
         )}
