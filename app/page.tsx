@@ -30,22 +30,23 @@ export default function Home() {
     <div className="wrap">
       <header className="topbar">
         <Brand />
-        <Link href="/anket" className="btn btn--ghost btn--small">Ankete katıl</Link>
+        <Link href="/app" className="btn btn--ghost btn--small">Uygulamayı aç</Link>
       </header>
 
       <main>
         <section className="hero">
           <div className="hero-copy">
-            <span className="label">Erken aşama · Seni dinliyoruz</span>
+            <span className="label">Erken erişim · Tarayıcında çalışır, kayıt gerekmez</span>
             <h1>Notlarının içinde <em>kaybolma.</em></h1>
             <p>
               İç içe notlar büyüdükçe neyin nereye bağlı olduğu kayboluyor. Arkipel her konuyu bir ada,
               alt notları uydu adalar olarak tek bir haritaya koyuyor. Nerede olduğunu hep görüyorsun.
             </p>
             <div className="hero-actions">
-              <Link href="/anket" className="btn btn--accent">5 dakikalık ankete katıl</Link>
-              <span className="hero-note">Beta listesine de buradan katılabilirsin.</span>
+              <Link href="/app" className="btn btn--accent">Hemen dene</Link>
+              <Link href="/anket" className="btn btn--ghost">Ankete katıl</Link>
             </div>
+            <span className="hero-note">Notların sadece bu cihazda, tarayıcında saklanır.</span>
           </div>
           <IslandMap />
         </section>
@@ -62,13 +63,13 @@ export default function Home() {
 
         <section className="cta">
           <div>
-            <h2>Uygulamayı henüz yazmadık.</h2>
+            <h2>Birkaç gün kullandın mı?</h2>
             <p>
-              Önce nasıl not aldığını ve nerede kaybolduğunu anlamak istiyoruz. Cevapların ilk sürümde
-              neyin olacağını doğrudan belirleyecek.
+              Nerede takıldığını, neyi özlediğini bilmek istiyoruz. 5 dakikalık anket bir sonraki
+              sürümde neyin olacağını doğrudan belirliyor.
             </p>
           </div>
-          <Link href="/anket" className="btn">Ankete başla</Link>
+          <Link href="/anket" className="btn">Ankete katıl</Link>
         </section>
       </main>
 

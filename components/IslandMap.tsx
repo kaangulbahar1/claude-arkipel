@@ -1,3 +1,5 @@
+import { islandPath } from "@/lib/island-shape";
+
 // Landing sayfasındaki örnek harita: bir "Tez" sayfası, ana ada, uydular ve bir köprü.
 
 type Island = { id: string; x: number; y: number; r: number; seed: number; name: string; main?: boolean };
@@ -22,32 +24,9 @@ const parentLinks: [string, string][] = [
 ];
 const bridges: [string, string][] = [["kaynak", "makale"]];
 
-function rand(seed: number) {
-  let s = seed * 9301 + 49297;
-  return () => {
-    s = (s * 9301 + 49297) % 233280;
-    return s / 233280;
-  };
-}
-
-// Deterministik, yumuşak kenarlı bir ada şekli (Catmull-Rom -> kübik Bezier).
-function blob(cx: number, cy: number, r: number, seed: number, scale = 1) {
-  const rnd = rand(seed);
-  const n = 9;
-  const pts = Array.from({ length: n }, (_, i) => {
-    const a = (i / n) * Math.PI * 2;
-    const rr = r * scale * (0.78 + rnd() * 0.36);
-    return [cx + Math.cos(a) * rr * 1.12, cy + Math.sin(a) * rr * 0.88];
-  });
-  let d = `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
-  for (let i = 0; i < n; i++) {
-    const p0 = pts[(i - 1 + n) % n], p1 = pts[i], p2 = pts[(i + 1) % n], p3 = pts[(i + 2) % n];
-    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
-    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-    d += ` C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
-  }
-  return d + "Z";
-}
+// Tanıtım görselindeki eski yuvarlak oranı koru: rx = r * 1.12, ry = r * 0.88.
+const blob = (cx: number, cy: number, r: number, seed: number, scale = 1) =>
+  islandPath(cx, cy, r * 1.12 * 1.04, r * 0.88 * 1.04, seed, scale);
 
 const byId = Object.fromEntries(islands.map((i) => [i.id, i]));
 

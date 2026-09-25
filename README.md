@@ -1,9 +1,11 @@
 # Arkipel
 
-İç içe notlarda kaybolmayı çözen, ada metaforuna dayalı bir not uygulaması. Bu repo şu an
-**kullanıcı araştırması** aşamasında: tanıtım sayfası, anket ve beta listesi.
+İç içe notlarda kaybolmayı çözen, ada metaforuna dayalı bir not uygulaması.
 
-- `/`: ürün fikrini anlatan tanıtım sayfası
+- `/app`: **uygulama.** Sayfalar, haritada adalar ve uydular, köprüler, her ada için defter, ⌘K arama,
+  liman (hızlı notlar). Telefonda sade not uygulaması olarak açılır. Veriler tarayıcıda saklanır.
+  Mimari ve "neyi nereden değiştiririm": [docs/mimari.md](docs/mimari.md)
+- `/`: tanıtım sayfası
 - `/anket`: 5 adımlı anket (sonunda isteğe bağlı beta listesi ve görüşme daveti)
 - `/api/anket`: cevapları doğrulayıp Supabase'e yazan uç nokta
 - `/panel`: şifreli sonuç paneli (hipotezler, özellik öncelikleri, segmentler, son açık uçlu cevaplar)
@@ -15,7 +17,8 @@ Araştırmanın amacı, hipotezleri ve dağıtım planı: [docs/arastirma-plani.
 
 ```bash
 npm install
-npm run dev          # http://localhost:3000
+npm run dev          # http://localhost:3000/app
+npm test             # veri modeli testleri
 ```
 
 Supabase ayarlı değilse geliştirme modunda cevaplar `data/responses.jsonl` dosyasına yazılır.
